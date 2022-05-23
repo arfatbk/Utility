@@ -60,4 +60,17 @@ class PasswordEncoderTest {
                 "Should throw exception for invalid password hash");
     }
 
+    @Test
+    @DisplayName("should return BCrypt encoder")
+    public void shouldReturnBCryptEncoder(){
+        PasswordEncoder passwordEncoder = PasswordEncoder.withBCrypt();
+        assertTrue(passwordEncoder instanceof BCryptPasswordEncoder, "passwordEncoder should be BCryptPasswordEncoder");
+    }
+
+    @Test
+    @DisplayName("should return SHA512 encoder")
+    public void shouldReturnSha512Encoder(){
+        PasswordEncoder passwordEncoder = PasswordEncoder.withSHA512();
+        assertTrue(passwordEncoder instanceof Sha512PasswordEncoder, "passwordEncoder should be Sha512PasswordEncoder");
+    }
 }
