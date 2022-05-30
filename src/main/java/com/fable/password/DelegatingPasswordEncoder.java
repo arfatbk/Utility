@@ -1,54 +1,29 @@
 package com.fable.password;
 
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-
 /**
- * @author Arfat Chaus on 5/23/22
- * version 1.0
+ * @author Arfat Chaus on 5/30/22
  */
-final class DelegatingPasswordEncoder implements PasswordEncoder {
-
-    List<PasswordEncoder> encoders = Arrays.asList(
-            new BCryptPasswordEncoder(),
-            new LegacyPasswordEncoder()
-//            new Sha512PasswordEncoder()
-    );
-
-    @Override
-    public String encode(CharSequence rawPassword) {
-        PasswordEncoder delegate = pickARandomPasswordEncoder();
-        return delegate.encode(rawPassword);
-    }
-
-    @Override
-    public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        PasswordEncoder delegate = pickSupportingPasswordEncoder(encodedPassword);
-        return delegate.matches(rawPassword, encodedPassword);
-    }
+interface DelegatingPasswordEncoder extends PasswordEncoder {
+    String DEFAULT_ID_PREFIX = "{";
+    String DEFAULT_ID_SUFFIX = "}";
 
 
-    @Override
-    public boolean supports(CharSequence rawPassword) {
-        return null != pickSupportingPasswordEncoder(rawPassword.toString());
-    }
+    /**
+     * Returns true if it supports the prefix.
+     */
+    boolean supports(CharSequence rawPassword);
 
-    private PasswordEncoder pickARandomPasswordEncoder() {
-        //Skip the Legacy Password encoder for creating a new hash.
-        List<PasswordEncoder> encoders = this.encoders.stream()
-                .filter(e -> !LegacyPasswordEncoder.class.isAssignableFrom(e.getClass()))
-                .collect(Collectors.toList());
-        Random r = new Random();
-        return encoders.get(r.nextInt(encoders.size()));
-    }
-
-    private PasswordEncoder pickSupportingPasswordEncoder(String encodedPassword) {
-        return this.encoders.stream()
-                .filter(e -> e.supports(encodedPassword))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No password encoder supporting the encoded password"));
+    default String extractId(String prefixEncodedPassword) {
+        if (prefixEncodedPassword == null) {
+            return null;
+        } else {
+            int start = prefixEncodedPassword.indexOf(DEFAULT_ID_PREFIX);
+            if (start != 0) {
+                return null;
+            } else {
+                int end = prefixEncodedPassword.indexOf(DEFAULT_ID_SUFFIX, start);
+                return end < 0 ? null : prefixEncodedPassword.substring(start + DEFAULT_ID_PREFIX.length(), end);
+            }
+        }
     }
 }

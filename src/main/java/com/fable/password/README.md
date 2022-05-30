@@ -43,9 +43,9 @@ import com.fable.password.PasswordEncoders;
 
 class Main {
     //generate hash and store in storage
-    String hash = PasswordEncoders.encode("password");
+    String hash = PasswordEncoders.delegatingPasswordEncoder().encode("password");
     
     //match raw Password with hash 
-    boolean matches = PasswordEncoders.matches("password",hash);
+    boolean matches = PasswordEncoders.delegatingPasswordEncoder().matches("password",hash);
 }
 ```
