@@ -27,7 +27,7 @@ Bump patch version every time except Major/minor version change
 - make appropriate package for given functionality
 - don't expose too many interfaces
 - abstract implementation details as much as possible
-- Single interface should return a Object, which can be switched easily in the future
+- Use `Factory classes` to return an Object, which can be switched easily in the future
 without breaking the clients
 
 ## Modules

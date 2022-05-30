@@ -18,7 +18,7 @@ class LegacyPasswordEncoderTest {
     @Test
     @DisplayName("should return supports true for passwords without any prefix")
     public void shouldReturnSupportsTrueForPasswordsWithoutAnyPrefix(){
-        PasswordEncoder passwordEncoder = PasswordEncoder.delegatingPasswordEncoder();
+        DelegatingPasswordEncoder passwordEncoder = (DelegatingPasswordEncoder) PasswordEncoders.delegatingPasswordEncoder();
         assertTrue(passwordEncoder.supports("rawPasswordWithoutAnyPrefix-==##3345oy83y98343"));
     }
 
@@ -26,7 +26,7 @@ class LegacyPasswordEncoderTest {
     @Test
     @DisplayName("should match the hash for provided password using legacy encoder")
     public void shouldMatchTheHashForProvidedPassword() throws NoSuchAlgorithmException {
-        PasswordEncoder passwordEncoder = PasswordEncoder.delegatingPasswordEncoder();
+        PasswordEncoder passwordEncoder = PasswordEncoders.delegatingPasswordEncoder();
         String hash = generateLegacyHash("password");
         assertTrue(passwordEncoder.matches("password", hash), "password should match hash");
     }
@@ -41,7 +41,7 @@ class LegacyPasswordEncoderTest {
     @Test
     @DisplayName("should return false for invalid password hash")
     public void shouldReturnFalseForInvalidPasswordHash() {
-        PasswordEncoder passwordEncoder = PasswordEncoder.delegatingPasswordEncoder();
+        PasswordEncoder passwordEncoder = PasswordEncoders.delegatingPasswordEncoder();
         String hash = passwordEncoder.encode("wrong");
         assertFalse(passwordEncoder.matches("password", hash), "supports should be false");
     }
@@ -49,7 +49,7 @@ class LegacyPasswordEncoderTest {
     @Test
     @DisplayName("should return supports true for legacy encoder")
     public void shouldReturnSupportsTrueForCustomEncoder() {
-        PasswordEncoder passwordEncoder = PasswordEncoder.delegatingPasswordEncoder();
+        DelegatingPasswordEncoder passwordEncoder = (DelegatingPasswordEncoder) PasswordEncoders.delegatingPasswordEncoder();
         assertTrue(passwordEncoder.supports(VALID_LEGACY_HASH), "supports should be true");
     }
 

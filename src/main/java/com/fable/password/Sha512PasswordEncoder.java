@@ -3,7 +3,7 @@ package com.fable.password;
 /**
  * @author Arfat Chaus on 5/23/22
  */
-final class Sha512PasswordEncoder implements PasswordEncoder {
+final class Sha512PasswordEncoder implements DelegatingPasswordEncoder {
 
     private final String idForEncode = "sha512";
 

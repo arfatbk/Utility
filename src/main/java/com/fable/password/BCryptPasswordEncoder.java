@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * @author Arfat Chaus on 5/23/22
  * @version 1.0
  */
-final class BCryptPasswordEncoder implements PasswordEncoder {
+final class BCryptPasswordEncoder implements DelegatingPasswordEncoder {
 
     private final Logger logger = Logger.getLogger(BCryptPasswordEncoder.class.getName());
     private final Pattern BCRYPT_PATTERN = Pattern.compile("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}");
