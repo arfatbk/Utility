@@ -49,3 +49,28 @@ class Main {
     boolean matches = PasswordEncoders.delegatingPasswordEncoder().matches("password",hash);
 }
 ```
+
+
+### Password upgrade 🔒
+
+```java
+import com.fable.password.PasswordEncoders;
+import com.fable.password.PasswordEncoder;
+
+class Main {
+    
+    PasswordEncoder passwordEncoder = PasswordEncoders.delegatingPasswordEncoder();
+    String hash = generateLegacyHash("password");
+    boolean res = passwordEncoder.matches("password", hash, encodedPassword -> {
+        //Update new encoded password to Storage
+
+        //Return 'true' -> Update operation succeeded
+        //Return 'false' -> Update operation failed
+        
+        //this will return will not stop Password encoder from matching password,
+        //It's just here to mark failure in storing new password
+        return true;
+    });
+}
+
+```

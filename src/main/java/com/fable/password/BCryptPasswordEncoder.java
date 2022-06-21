@@ -2,6 +2,7 @@ package com.fable.password;
 
 
 import java.security.SecureRandom;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -120,6 +121,23 @@ final class BCryptPasswordEncoder implements DelegatingPasswordEncoder {
         }
         String hash = extractEncodedPassword(encodedPassword);
         return BCrypt.checkpw(rawPassword.toString(), hash);
+    }
+
+    @Override
+    public boolean shouldUpgrade() {
+        return false;
+    }
+
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword, Function<String, Boolean> passwordUpgrade) {
+        boolean matches = matches(rawPassword, encodedPassword);
+        if (shouldUpgrade()) {
+            if (matches) {
+                String encoded = PasswordEncoders.delegatingPasswordEncoder().encode(rawPassword);
+                passwordUpgrade.apply(encoded);
+            }
+        }
+        return matches;
     }
 
     @Override

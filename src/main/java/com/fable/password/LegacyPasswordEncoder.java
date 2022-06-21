@@ -2,6 +2,7 @@ package com.fable.password;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.function.Function;
 
 /**
  * For matching older passwords only. Use of the {@link LegacyPasswordEncoder} is not recommended.
@@ -40,6 +41,23 @@ final class LegacyPasswordEncoder implements DelegatingPasswordEncoder {
         md.update(rawPassword.toString().getBytes());
         byte[] digest = md.digest();
         return new String(digest).equals(encodedPassword);
+    }
+
+    @Override
+    public boolean shouldUpgrade() {
+        return true;
+    }
+
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword, Function<String, Boolean> passwordUpgrade) {
+        boolean matches = matches(rawPassword, encodedPassword);
+        if (shouldUpgrade()) {
+            if (matches) {
+                String encoded = PasswordEncoders.delegatingPasswordEncoder().encode(rawPassword);
+                passwordUpgrade.apply(encoded);
+            }
+        }
+        return matches;
     }
 
     /**

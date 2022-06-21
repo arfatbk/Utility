@@ -4,6 +4,7 @@ package com.fable.password;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +33,17 @@ final class DefaultDelegatingPasswordEncoder implements DelegatingPasswordEncode
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         PasswordEncoder delegate = pickSupportingPasswordEncoder(encodedPassword);
         return delegate.matches(rawPassword, encodedPassword);
+    }
+
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword, Function<String, Boolean> passwordUpgrade) {
+        PasswordEncoder delegate = pickSupportingPasswordEncoder(encodedPassword);
+        return delegate.matches(rawPassword, encodedPassword, passwordUpgrade);
+    }
+
+    @Override
+    public boolean shouldUpgrade() {
+        return false;
     }
 
 
