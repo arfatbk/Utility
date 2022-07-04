@@ -1,4 +1,4 @@
-package com.fable.password;
+package com.arfat.password;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Arfat Chaus on 6/21/22
  */
-class BCryptPasswordEncoderTest {
+class DefaultDelegatingPasswordEncoderTest {
 
     @Test
     @DisplayName("should return false for shouldUpgrade()")

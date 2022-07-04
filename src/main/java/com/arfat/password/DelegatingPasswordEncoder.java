@@ -1,4 +1,4 @@
-package com.fable.password;
+package com.arfat.password;
 
 /**
  * @author Arfat Chaus on 5/30/22

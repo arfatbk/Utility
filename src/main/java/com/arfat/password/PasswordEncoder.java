@@ -1,4 +1,4 @@
-package com.fable.password;
+package com.arfat.password;
 
 import java.util.function.Function;
 
@@ -12,7 +12,7 @@ import java.util.function.Function;
 public interface PasswordEncoder {
 
     /**
-     * Encode the raw password. Generally, a good encoding algorithm applies a SHA-1 or
+     * Encode the raw password. Generally, a good encoding algorithm applies an SHA-1 or
      * greater hash combined with an 8-byte or greater randomly generated salt.
      */
     String encode(CharSequence rawPassword);

@@ -1,4 +1,4 @@
-package com.fable.password;
+package com.arfat.password;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
