@@ -8,4 +8,4 @@ This project does not rely on clients to provide any special configuration to wo
 However might provide configuration hooks to modify behaviour
 
 ## Modules
-- Password encoders documentation [here](src/main/java/com/fable/password/README.md)
+- Password encoders documentation [here](src/main/java/com/arfat/password/README.md)
